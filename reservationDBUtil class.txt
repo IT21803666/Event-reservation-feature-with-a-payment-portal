@@ -1,0 +1,99 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+public class reservationDBUtil {
+		
+	public static boolean insertReservation(String userid, int eventid, String eventname, int attendees, String food, String music, String decor, String requests, String terms) {
+		boolean isSuccess = false;
+		
+		// Database connection details
+		String URL = "jdbc:mysql://localhost:3306/event_reservation_form";
+		String USER = "root";
+		String PASSWORD = "semin";
+		
+		// SQL query with placeholders
+		String sql = "INSERT INTO reservation (reservationId, userid, eventid, eventname, attendees, food, music, decor, requests, terms) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+			 PreparedStatement stmt = con.prepareStatement(sql)) {
+			
+			// Set the values for the prepared statement
+			stmt.setInt(1, 0); // Assuming reservationId is an auto-increment field
+			stmt.setString(2, userid);
+			stmt.setInt(3, eventid);
+			stmt.setString(4, eventname);
+			stmt.setInt(5, attendees);
+			stmt.setString(6, food);
+			stmt.setString(7, music);
+			stmt.setString(8, decor);
+			stmt.setString(9, requests);
+			stmt.setString(10, terms);
+			
+			int rowsAffected = stmt.executeUpdate();
+			
+			if (rowsAffected > 0) {
+				isSuccess = true;
+			} else {
+				isSuccess = false;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return isSuccess;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+"INSERT INTO reservation values (0,'"+userid+"','"+eventid+"', '"+eventname+"', '"+attendees+"', '"+food+"', '"+music+"', '"+decor+"', '"+requests+"', '"+terms+"')";
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class ReservationDBUtil {
+
+	public static boolean insertReservation(String userid, int eventid, String eventname, int attendees, String food, String music, String decor, String requests, String terms) {
+		boolean isSuccess = false;
+
+		// Database connection details
+		String url = "jdbc:mysql://localhost:3306/event_reservation_form";
+		String user = "root";
+		String password = "semin";
+
+		try (Connection con = DriverManager.getConnection(url, user, password);
+				Statement stmt = con.createStatement()) {
+
+			String sql = "INSERT INTO reservation (reservationId, userid, eventid, eventname, attendees, food, music, decor, requests, terms) VALUES (0, '" + userid + "', " + eventid + ", '" + eventname + "', " + attendees + ", '" + food + "', '" + music + "', '" + decor + "', '" + requests + "', " + terms + ")";
+
+			int res = stmt.executeUpdate(sql);
+
+			if (res > 0) {
+				isSuccess = true;
+			} else {
+				isSuccess = false;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return isSuccess;
+	}
+}
+
+		 

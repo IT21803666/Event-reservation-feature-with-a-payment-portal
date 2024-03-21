@@ -1,0 +1,42 @@
+package reservationctrl;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class reservationDBUtil {
+		
+	public static boolean insertReservation(String userid, int eventid, String eventname, int attendees, String food, String music, String decor, String requests, String terms) {
+		boolean isSuccess = false;
+		
+		//database connection 
+		 String url = "jdbc:mysql://localhost:3306/event_reservation_form";
+		 String user = "root";
+		 String password = "semin";
+		
+		//try and catch to find errors
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection(url, user, password);
+			Statement stmt = con.createStatement();
+			
+			String sql = "INSERT INTO reservation (reservationId, userid, eventid, eventname, attendees, food, music, decor, requests, terms) VALUES (0, userid, eventid, eventname, attendees, food, music, decor, requests, terms)";
+
+
+			int res = stmt.executeUpdate(sql);
+			
+			if(res > 0) { //if execute update sends 1 then data has been inserted else if its 0 its not
+				isSuccess = true;
+			} else {
+				isSuccess = false;
+			}
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return isSuccess;
+	}
+}
